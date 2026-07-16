@@ -1,6 +1,7 @@
 import express from "express";
 import http from "http";
 import { WebSocketServer, WebSocket } from "ws";
+import { startPolymarketFeed } from "./controllers/polymarketWebsocket.js";
 
 const app = express();
 
@@ -54,8 +55,13 @@ function connectToOkx() {
         );
     });
 
-    okx.on("message", (raw) => {
+    okx.on("message", (raw: WebSocket.RawData | 'pong') => {
+
+        if (raw == 'pong') return;
+
         const msg = JSON.parse(raw.toString());
+
+
         if (!msg.data) return; // ignore subscribe confirmations, etc.
 
         const t = msg.data[0];
@@ -86,7 +92,8 @@ function connectToOkx() {
 }
 
 connectToOkx();
+startPolymarketFeed(wss, "btc-updown-5m-1784224500");
 
-server.listen(3000, () =>
-    console.log("🚀 http://localhost:3000")
+server.listen(3001, () =>
+    console.log("🚀 http://localhost:3001")
 );
