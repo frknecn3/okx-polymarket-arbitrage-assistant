@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 export function useGoldPrice() {
-    const [data, setData] = useState(null);
+    const [data, setData] = useState<Record<string,any> | null>(null);
     const [connected, setConnected] = useState(false);
 
     useEffect(() => {
@@ -17,8 +17,8 @@ export function useGoldPrice() {
 
                 ws.onopen = () => setConnected(true);
                 ws.onmessage = (e) => {
-                    
-                    if(e.data == "pong") return;
+
+                    if (e.data == "pong") return;
 
                     setData(JSON.parse(e.data as string))
                 };
