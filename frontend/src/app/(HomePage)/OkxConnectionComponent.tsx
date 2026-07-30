@@ -14,12 +14,16 @@ const OkxConnectionComponent = (props: Props) => {
         else console.log('DISCONNECTED')
     }, [connected]);
 
-    useEffect(()=>{
-        console.log("CHANGE IN DATA: ", data)
-    },[data])
+    useEffect(() => {
+        // console.log("CHANGE IN DATA: ", data)
+    }, [data])
 
     return (
-        <div>{(data as any)?.price}</div>
+        <div className='flex-1 border-r'>
+            {
+                data?.price
+            }
+        </div>
     )
 }
 
